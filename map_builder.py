@@ -13,6 +13,9 @@ class MapBuilder:
     def __init__(self):
         pass
 
+    def __call__(self, keywords: List[str], relationships: Set[Tuple[str, str]]) -> List[MindMapNode]:
+        return self.make_maps(keywords, relationships)
+
     def make_maps(self, keywords: List[str], relationships: Set[Tuple[str, str]]) -> List[MindMapNode]:
         """
         make_maps
@@ -36,6 +39,7 @@ class MapBuilder:
                 nodesToFill += subNodes
 
             mind_maps.append(headNode)
+
         return mind_maps
 
     @staticmethod

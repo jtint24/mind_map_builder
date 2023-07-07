@@ -14,7 +14,7 @@ class MindMapNode:
     def repr_indent_level(self, indent_level: int = 0) -> str:
         head = "\t" * indent_level + " - " + self.name + "\n"
         for edge in self.edges:
-            head += edge.target.repr_indent_level(indent_level+1) + "\n"
+            head += edge.target.repr_indent_level(indent_level+1)
         return head
 
     def __repr__(self):

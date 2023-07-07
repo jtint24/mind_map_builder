@@ -1,10 +1,19 @@
 from summarizer import Summarizer
+from map_builder import MapBuilder
 
 import spacy
 
 
 def main():
-    pass
+    mind_map_test()
+
+
+def mind_map_test():
+    map_builder = MapBuilder()
+
+    maps = map_builder(["A", "B", "C", "D"], {("A", "B"), ("D", "C"), ("A", "C"), ("B", "D")})
+
+    print(maps[0])
 
 
 def summarizer_test():
