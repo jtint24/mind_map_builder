@@ -33,7 +33,7 @@ class MapBuilder:
             nodesToFill = [headNode]
             while len(nodesToFill) > 0:
                 nodeToFill = nodesToFill.pop(0)
-                subNodes = self.fillNode(nodeToFill, keywords, relationships)
+                subNodes = MapBuilder.fillNode(nodeToFill, keywords, relationships)
                 for subNode in subNodes:
                     keywords.remove(subNode.name)
                 nodesToFill += subNodes

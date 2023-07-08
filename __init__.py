@@ -1,19 +1,36 @@
 from summarizer import Summarizer
 from map_builder import MapBuilder
+from text_importer import TextImporter
 
 import spacy
 
 
 def main():
-    mind_map_test()
+    importer_test()
 
 
 def mind_map_test():
     map_builder = MapBuilder()
 
-    maps = map_builder(["A", "B", "C", "D"], {("A", "B"), ("D", "C"), ("A", "C"), ("B", "D")})
+    maps = map_builder(["A", "B", "C", "D", "E", "F", "G", "H"],
+                       {("E", "F"), ("G", "F"), ("H", "E"), ("A", "B"), ("D", "C"), ("A", "C"), ("B", "D")})
 
-    print(maps[0])
+    print(maps)
+
+
+def importer_test():
+    nlp = spacy.load("en_core_web_sm")
+
+    importer = TextImporter()
+    summarizer = Summarizer(200, nlp)
+
+    text = importer.get_from_url("https://arxiv.org/pdf/1908.09635.pdf")
+
+    # print(text)
+
+    doc = nlp(text)
+    summarized_doc = summarizer(doc)
+    print(summarized_doc)
 
 
 def summarizer_test():
