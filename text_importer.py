@@ -6,7 +6,6 @@ import io
 from tkinter import Tk
 
 
-
 class TextImporter:
     """
     TextImporter
@@ -15,8 +14,8 @@ class TextImporter:
     url.
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, tk: Tk):
+        self.tk: Tk = tk
 
     def get_from_url(self, target_url) -> str:
         raw_html = ""
@@ -39,13 +38,11 @@ class TextImporter:
             return plain_text
 
     def get_from_pdf(self, pdf_name) -> str:
-        #reader = PdfReader(pdf_name)
+        # reader = PdfReader(pdf_name)
         text = ""
-        #for page in reader.pages:
+        # for page in reader.pages:
         #    text += page.extract_text() + "\n"
 
-
-
-
     def get_from_clipboard(self) -> str:
-        pass
+        text = self.tk.clipboard_get()
+        return text

@@ -1,12 +1,14 @@
 from summarizer import Summarizer
 from map_builder import MapBuilder
 from text_importer import TextImporter
+from keyword_extractor import KeywordExtractor
 
+from tkinter import Tk
 import spacy
 
 
 def main():
-    importer_test()
+    gpt_test()
 
 
 def mind_map_test():
@@ -19,12 +21,15 @@ def mind_map_test():
 
 
 def importer_test():
+    tk = Tk()
     nlp = spacy.load("en_core_web_sm")
 
-    importer = TextImporter()
+    importer = TextImporter(tk)
     summarizer = Summarizer(200, nlp)
 
-    text = importer.get_from_url("https://arxiv.org/pdf/1908.09635.pdf")
+    # text = importer.get_from_url("https://arxiv.org/pdf/1908.09635.pdf")
+    text = importer.get_from_clipboard()
+
 
     # print(text)
 
@@ -32,6 +37,13 @@ def importer_test():
     summarized_doc = summarizer(doc)
     print(summarized_doc)
 
+
+def gpt_test():
+    kw_extractor = KeywordExtractor()
+    print(kw_extractor("""The research question that this project seeks to address is 
+Many student researchers are using ChatGPT to summarize and evaluate potential sources quickly. However, ChatGPT demonstrates significant issues with hallucination and reasoning when generating summaries. Would an algorithm that uses filtered output from ChatGPT to generate mind maps produce more accurate and useful summaries to student researchers than ChatGPT unadulterated? However, mind maps are a proven tool that could be more readable and reduce errors in summarization. However, none of these tools are specifically built for resource evaluation and thus are missing key features for this task. However, Wei does not define how to specifically generate such a polytree.
+However, by using it to generate the underlying information in the mind map, we can reduce hallucination. 
+"""))
 
 def summarizer_test():
     nlp = spacy.load("en_core_web_sm")
