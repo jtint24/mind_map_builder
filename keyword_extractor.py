@@ -26,10 +26,18 @@ class KeywordExtractor:
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content":
-                    "Give the keywords in the following text in descending order of importance: {}".format(text)},
+                    "Give the keywords in the following text in descending order of importance in a comma-separated "
+                    "list: {}".format(text)},
             ]
         )
-        return response
+        choices = response["choices"]
+        main_response = choices[0]["message"]["content"]
+        print(main_response)
 
-
-
+        lines = main_response.split(",")
+        keywords = []
+        for line in lines:
+            keyword = line.strip()
+            if keyword != "":
+                keywords.append(keyword)
+        return keywords

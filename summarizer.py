@@ -20,9 +20,10 @@ class Summarizer:
         self.max_token_count: int = max_token_count
         self.nlp: Language = nlp
 
-    def __call__(self, document: Doc) -> Doc:
+    def __call__(self, text: str) -> str:
+        document = self.nlp(text)
         if len(document) < self.max_token_count:
-            return document
+            return text
 
         sentences = list(document.sents)
 
@@ -85,7 +86,7 @@ class Summarizer:
                 if sentence in sentences_to_include:
                     return_doc = Doc.from_docs([return_doc, sentence.as_doc()])
 
-            return return_doc
+            return return_doc.text
 
     @staticmethod
     def _is_function_word(word: str) -> bool:
