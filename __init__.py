@@ -3,38 +3,41 @@ from map_builder import MapBuilder
 from text_importer import TextImporter
 from keyword_extractor import KeywordExtractor
 from relation_extractor import RelationExtractor
+from map_displayer import MapDisplayer
+from interface import Interface
 
-from tkinter import Tk
+# from tkinter import Tk
 import spacy
 
 
 def main():
-    end_to_end_test()
+    interface = Interface()
+    interface.main_menu()
+    # end_to_end_test()
+
+
+def displayer_test():
+    map_builder = MapBuilder()
+
+    maps = map_builder.make_maps(["mind maps", "student researchers", "research projects", "graphical layouts", "automated tools", "ChatGPT"], {("student researchers", "research projects"), ("mind maps", "student researchers"), ("student researchers", "automated tools"), ("automated tools", "ChatGPT"), ("mind maps", "student researchers"), ("graphical layouts", "mind maps"), })
+
+
+
+
+    map_displayer = MapDisplayer()
+
+    map_displayer(maps)
 
 
 def end_to_end_test():
     text = """
-        Thousands of protesters blockaded Israel's main airport and highways on Tuesday as Prime Minister Benjamin Netanyahu's hard-right coalition pressed ahead with a justice bill that has opened the deepest splits seen in the country in decades.
-A day after parliament passed a key element in the bill, which aims to curb the power of the Supreme Court, crowds of flag-waving protesters stopped morning traffic in major intersections and on highways nationwide. Some lay down on roads, while others threw flares.
-Police on horseback deployed among hundreds of demonstrators in Israel's business hub, Tel Aviv. At the entrance to Jerusalem, officers used a water cannon to disperse some protesters and dragged others away by force. At least 66 people were arrested, police said.
-Around 1,000 police were deployed at Ben Gurion airport, outside Tel Aviv, where thousands of protesters turned the area in front of the main entrance into a sea of blue and white Israeli flags. A spokesman for the airport said flights were not affected, despite the large crowds.
-The United States, which has called for the independence of the judiciary to be protected and urged Netanyahu to try to build consensus for the proposals, said Israel should respect the right of peaceful protest.
-The drive by Netanyahu's nationalist-religious coalition to change the justice system has led to unprecedented protests, stirred concern for Israel's democratic health among Western allies, and bruised the economy.
-"They are trying to ruin our judicial system, by putting and enforcing laws that will demolish democracy," said Ariel Dubinsky, who joined one of the protests in Tel Aviv.
-The proposals have also alarmed investors and helped push the shekel down almost 8% since January.
-The new bill won a first of three required votes to be written into law late on Monday to the cries of "for shame" by opposition lawmakers.
-If passed as is, it would curb the Supreme Court's power to quash decisions made by the government, ministers and elected officials by ruling them unreasonable.
-CHECKS AND BALANCES
-The government and its supporters say the overhaul is needed to rein in interventionist judges, many from the left, who they say have encroached on the political sphere. They say the change will help effective governance by curbing court intervention, arguing judges have other legal means to exercise oversight.
-For critics, who include most of the country's tech and business establishment, Supreme Court oversight helps prevent corruption and abuses of power and weakening it will remove a vital part of Israel's democratic checks and balances. Groups of military reservists, including combat pilots and members of elite special forces units, have also joined the protests.
-Some members of Netanyahu's Likud party have said the bill will be watered down before it is brought to a final vote which they hope to wrap up before the Knesset breaks for the summer on July 30.
-But Simcha Rothman, the head of the Knesset Constitution, Law and Justice Committee which is drafting the bill, told Army Radio: "I'm saying this explicitly: I am not convinced that any significant changes are to be expected."
-Netanyahu - who is on trial on graft charges he denies - had paused the judicial campaign for compromise talks with the opposition but the negotiations collapsed in June.
+        Students are increasingly using automated summary tools such as ChatGPT in order to quickly analyze the exponentially increasing volume of information they have access to for research projects. This project seeks to build an automated tool using ChatGPT that builds more accurate, concise, and digestible summaries in the form of mind maps, which are graphical layouts of important information in a document. This tool will be compared heuristically against ChatGPT. 
     """
     summarizer = Summarizer(200, nlp=spacy.load("en_core_web_sm"))
     kw_extractor = KeywordExtractor()
     relation_extractor = RelationExtractor(0.03)
     map_builder = MapBuilder()
+    map_displayer = MapDisplayer()
 
     summarized_text = summarizer(text)
     print(summarized_text)
@@ -45,6 +48,8 @@ Netanyahu - who is on trial on graft charges he denies - had paused the judicial
     relation_maps = map_builder.make_maps(keywords, relations)
     for relation_map in relation_maps:
         print(relation_map)
+
+    map_displayer(relation_maps)
 
 
 
@@ -60,7 +65,7 @@ def mind_map_test():
 
 
 def importer_test():
-    tk = Tk()
+    tk = None
     nlp = spacy.load("en_core_web_sm")
 
     importer = TextImporter(tk)
