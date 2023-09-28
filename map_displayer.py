@@ -1,9 +1,14 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.use('WXAgg')
+
 
 from mind_map import MindMapNode
 
 from typing import List
+
 
 class MapDisplayer:
     def __init__(self):
@@ -11,7 +16,7 @@ class MapDisplayer:
 
     def display_maps(self, mind_maps: List[MindMapNode]):
 
-        fig = plt.figure(figsize=(10, 6), dpi=300, frameon=False)
+        fig = plt.figure(figsize=(10, 6), dpi=100, frameon=False)
         #for i, mind_map in enumerate(mind_maps):
         #    plt.figure(i)
         #    self.display_map(mind_map)
@@ -21,8 +26,9 @@ class MapDisplayer:
 
         plt.title("")
         plt.box(False)
-        plt.savefig("mind map", dpi=300)
+        # plt.savefig("mind map", dpi=100)
         plt.show()
+        return fig
 
 
     def __call__(self, mind_maps: List[MindMapNode]):
@@ -43,7 +49,19 @@ class MapDisplayer:
             for node in node_list
         }
 
-        nx.draw_networkx(graph, labels=labels, pos=nx.spring_layout(graph), arrows=True, node_shape="s", edge_color="#0000FF", node_color="white")
+        nx.draw_networkx(
+            graph,
+            labels=labels,
+            pos=nx.spring_layout(
+                graph,
+                iterations=5000
+            ),
+            arrows=True,
+            node_shape="s",
+            edge_color="#1155FF",
+            node_color="white",
+            node_size=0
+        )
 
 
 

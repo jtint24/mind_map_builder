@@ -3,6 +3,7 @@ import html2text
 from pypdf import PdfReader
 import requests
 import io
+import pyperclip
 from tkinter import Tk
 
 
@@ -14,8 +15,8 @@ class TextImporter:
     url.
     """
 
-    def __init__(self, tk: Tk):
-        self.tk: Tk = tk
+    def __init__(self):
+        pass
 
     def get_from_url(self, target_url) -> str:
         raw_html = ""
@@ -44,5 +45,5 @@ class TextImporter:
         #    text += page.extract_text() + "\n"
 
     def get_from_clipboard(self) -> str:
-        text = self.tk.clipboard_get()
+        text = pyperclip.paste()
         return text
