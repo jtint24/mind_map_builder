@@ -13,6 +13,11 @@ from matplotlib.backends.backend_wx import NavigationToolbar2Wx
 
 class MyFrame(wx.Frame):
     def __init__(self):
+        """
+        __init__
+
+        :
+        """
         super().__init__(parent=None, title='Mind Map Builder')
         panel = wx.Panel(self)
         self.sizer = wx.BoxSizer(wx.VERTICAL)

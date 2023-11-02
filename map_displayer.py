@@ -4,20 +4,24 @@ import matplotlib
 
 matplotlib.use('WXAgg')
 
-
 from mind_map import MindMapNode
 
 from typing import List
 
 
 class MapDisplayer:
+    """
+    MapDisplayer
+
+    Produces a graphical representation of a mind map node using MatPlotLib and NetworkX
+    """
+
     def __init__(self):
         pass
 
     def display_maps(self, mind_maps: List[MindMapNode]):
-
         fig = plt.figure(figsize=(10, 6), dpi=100, frameon=False)
-        #for i, mind_map in enumerate(mind_maps):
+        # for i, mind_map in enumerate(mind_maps):
         #    plt.figure(i)
         #    self.display_map(mind_map)
         self.display_map(mind_maps[0])
@@ -30,7 +34,6 @@ class MapDisplayer:
         plt.show()
         return fig
 
-
     def __call__(self, mind_maps: List[MindMapNode]):
         self.display_maps(mind_maps)
 
@@ -39,8 +42,8 @@ class MapDisplayer:
         node_list = mind_map.get_node_list()
         edge_list = [edge.to_nx_tuple() for edge in mind_map.get_edge_list()]
 
-        print(node_list)
-        print(edge_list)
+        # print(node_list)
+        # print(edge_list)
         graph.add_nodes_from(node_list)
         graph.add_edges_from(edge_list)
 
@@ -52,9 +55,9 @@ class MapDisplayer:
         nx.draw_networkx(
             graph,
             labels=labels,
-            pos=nx.spring_layout(
+            pos=nx.kamada_kawai_layout(
                 graph,
-                iterations=5000
+                # iterations=5000
             ),
             arrows=True,
             node_shape="s",
@@ -62,9 +65,3 @@ class MapDisplayer:
             node_color="white",
             node_size=0
         )
-
-
-
-
-
-

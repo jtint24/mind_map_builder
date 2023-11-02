@@ -7,6 +7,8 @@ import math
 import string
 from typing import Dict
 
+import utils
+
 
 class Summarizer:
     """
@@ -21,6 +23,12 @@ class Summarizer:
         self.nlp: Language = nlp
 
     def __call__(self, text: str) -> str:
+        """
+        Summarizes a text to within the maximum token count using information-theoretic extractive summarization
+
+        :param text: Text to summarize
+        :return: Extracted sentences from the original text
+        """
         document = self.nlp(text)
         if len(document) < self.max_token_count:
             return text
@@ -63,11 +71,12 @@ class Summarizer:
                     entropy += - probability * math.log(probability)
             word_entropies[word.text] = entropy
 
+            # Sort sentences by the summed semantic entropy of their sentences
 
-
-            # Sort sentences by the summed entropy of their sentences
-
-            sentences_by_entropy = sorted(sentences, key=lambda sent: Summarizer._get_sentence_entropy(sent, word_entropies), reverse=True)
+            sentences_by_entropy = sorted(
+                sentences,
+                key=lambda sent: Summarizer._get_sentence_entropy(sent, word_entropies), reverse=True
+            )
 
             sentences_to_include = set()
 
@@ -90,12 +99,20 @@ class Summarizer:
 
     @staticmethod
     def _is_function_word(word: str) -> bool:
-        if str(word.translate(str.maketrans('', '', string.punctuation))).strip() == 0:
+        """
+        Returns whether a given word matches a known function word
+        """
+        function_words = utils.function_words
+        word = str(word.translate(str.maketrans('', '', string.punctuation))).strip()
+        if len(word) == 0:
             return True
-        return word in {"hello"}
+        return word in function_words
 
     @staticmethod
     def _get_sentence_entropy(sentence: Doc, entropy_map: Dict[str, float]) -> float:
+        """
+        Returns the combined semantic entropy of a sentence given a map of entropies of individual words
+        """
         entropy_sum = 0.0
         for token in sentence:
             if token.text in entropy_map:

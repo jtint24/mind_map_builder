@@ -23,6 +23,12 @@ class RelationExtractor:
         return self.get_relationship_set(keywords)
 
     def get_encoding(self, text: str) -> List[float]:
+        """
+        Encodes a piece of text to produce an embedding
+
+        :param text: The text which is encoded to get an embedding
+        :return: The embedding of the text from the transformer as a list of floats
+        """
         if text not in self.embeddings_cache:
             inputs = self.tokenizer(text, return_tensors="pt", padding=True, truncation=True)
             with torch.no_grad():
@@ -32,6 +38,14 @@ class RelationExtractor:
         return self.embeddings_cache[text]
 
     def get_similarity_score(self, vec_a: List[float], vec_b: List[float]) -> float:
+        """
+        Returns dot product similarity score between a pair of vectors (equivalent to cosine similarity on normalized
+        embeddings)
+
+        :param vec_a: The first vector to compare
+        :param vec_b: The second vector to compare
+        :return: The dot-product score
+        """
         products = [a * b for a, b in zip(vec_a, vec_b)]
         product_sum = 0
         for term in products:
@@ -40,6 +54,12 @@ class RelationExtractor:
         return product_sum
 
     def get_relationship_set(self, keywords: List[str]) -> Set[Tuple[str, str]]:
+        """
+        Calculates the pairs of keywords in a list of keywords which are similar within a threshold
+
+        :param keywords: List of keywords from which to identify relations
+        :return: Set of each pair of keywords that are within the similarity threshold
+        """
         ret_set = set()
 
         for sig_keyword_idx in range(len(keywords)):

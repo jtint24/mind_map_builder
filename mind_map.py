@@ -2,6 +2,11 @@ from typing import List, Tuple
 
 
 class MindMapNode:
+    """
+    MindMapNode
+
+    A representation of a node on a mind map as a DAG graph node with an adjacency list
+    """
     def __init__(self, name: str, child_nodes: "List[MindMapNode]" = None):
         if child_nodes is None:
             child_nodes = []
@@ -12,6 +17,10 @@ class MindMapNode:
         self.edges.append(MindMapEdge(self, new_child))
 
     def repr_indent_level(self, indent_level: int = 0) -> str:
+        """
+        Recursively returns string representation with a given indent level
+        :param indent_level: The indent level to use
+        """
         head = "\t" * indent_level + " - " + self.name + "\n"
         for edge in self.edges:
             head += edge.target.repr_indent_level(indent_level+1)

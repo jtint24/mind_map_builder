@@ -20,7 +20,8 @@ class MapBuilder:
         """
         make_maps
 
-        Returns a minimal list of maps which together contain all the keywords in a list linked by all the relationships in the list.
+        Returns a minimal list of maps which together contain all the keywords in a list linked by all the relationships
+         in the list.
 
         :param keywords: List of keywords in descending order of significance
         :param relationships: List of possible relationships of keywords
@@ -46,6 +47,9 @@ class MapBuilder:
     def fillNode(nodeToFill: MindMapNode,
                  keywords: List[str],
                  relationships: Set[Tuple[str, str]]) -> List[MindMapNode]:
+        """
+        Gives a mind map node a list of child nodes based on related keywords from a set of relations
+        """
         subKeywords = [
             keyword for keyword in keywords
             if MapBuilder._has_relationship(relationships, keyword, nodeToFill.name)
@@ -60,4 +64,7 @@ class MapBuilder:
 
     @staticmethod
     def _has_relationship(relationships: Set[Tuple[str, str]], keywordA: str, keywordB):
+        """
+        :return: Whether two keywords have a relation in a set of relations
+        """
         return (keywordA, keywordB) in relationships or (keywordB, keywordA) in relationships

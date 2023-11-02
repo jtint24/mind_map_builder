@@ -18,7 +18,11 @@ class TextImporter:
     def __init__(self):
         pass
 
-    def get_from_url(self, target_url) -> str:
+    @staticmethod
+    def get_from_url(target_url) -> str:
+        """
+        :return: Returns cleaned text from a target_url
+        """
         raw_html = ""
         try:
             lines = urllib.request.urlopen(target_url)
@@ -38,12 +42,10 @@ class TextImporter:
                 plain_text += page.extract_text()
             return plain_text
 
-    def get_from_pdf(self, pdf_name) -> str:
-        # reader = PdfReader(pdf_name)
-        text = ""
-        # for page in reader.pages:
-        #    text += page.extract_text() + "\n"
-
-    def get_from_clipboard(self) -> str:
+    @staticmethod
+    def get_from_clipboard() -> str:
+        """
+        :return: The text currently in the clipboard
+        """
         text = pyperclip.paste()
         return text

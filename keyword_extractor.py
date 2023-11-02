@@ -20,9 +20,16 @@ class KeywordExtractor:
             self.keywordCache[text] = self._get_keywords(text)
         return self.keywordCache[text]
 
-    def _get_keywords(self, text: str) -> List[str]:
+    @staticmethod
+    def _get_keywords(text: str) -> List[str]:
+        """
+        Gets a list of keywords from a text using a fine-tuned descendent of ChatGPT
+
+        :param text: The text to extract the keywords from
+        :return: Keywords from the text as a list
+        """
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="keyword-ex-davinci-ft",  # "gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content":
