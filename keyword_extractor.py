@@ -29,7 +29,7 @@ class KeywordExtractor:
         :return: Keywords from the text as a list
         """
         response = openai.ChatCompletion.create(
-            model="keyword-ex-davinci-ft",  # "gpt-3.5-turbo",
+            model="gpt-3.5-turbo",  #"ft:gpt-3.5-turbo:jtint:suffix:keyex",  # "gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content":

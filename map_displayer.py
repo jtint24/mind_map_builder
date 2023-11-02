@@ -55,9 +55,9 @@ class MapDisplayer:
         nx.draw_networkx(
             graph,
             labels=labels,
-            pos=nx.kamada_kawai_layout(
+            pos=nx.spring_layout(
                 graph,
-                # iterations=5000
+                iterations=5000
             ),
             arrows=True,
             node_shape="s",
